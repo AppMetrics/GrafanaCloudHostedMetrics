@@ -1,0 +1,101 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2D805782-756E-4C98-B22E-F502BEE95318}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{31A4DDB1-952E-4EED-96EF-29C669279A86}"
+	ProjectSection(SolutionItems) = preProject
+		.travis.yml = .travis.yml
+		AppMetrics.ruleset = AppMetrics.ruleset
+		appveyor.yml = appveyor.yml
+		global.json = global.json
+		stylecop.json = stylecop.json
+		version.props = version.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DD2E4647-7125-4CE3-9BA5-B45A26113A31}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cake", "Cake", "{E1A943F7-5493-4B64-A448-3E9EEA582E20}"
+	ProjectSection(SolutionItems) = preProject
+		build.cake = build.cake
+		build.ps1 = build.ps1
+		build.sh = build.sh
+		build_travis.sh = build_travis.sh
+		tools\packages.config = tools\packages.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git", "Git", "{4199989A-27B6-4A6A-99C2-1AF6B01DA5EB}"
+	ProjectSection(SolutionItems) = preProject
+		GitReleaseManager.yaml = GitReleaseManager.yaml
+		ISSUE_TEMPLATE.md = ISSUE_TEMPLATE.md
+		PULL_REQUEST_TEMPLATE.md = PULL_REQUEST_TEMPLATE.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sandbox", "sandbox", "{B0E330F2-942D-47DC-940D-692E01459A06}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{28CE67A4-2662-43AA-B42E-B3C8F33DF31B}"
+	ProjectSection(SolutionItems) = preProject
+		build\common.props = build\common.props
+		build\dependencies.props = build\dependencies.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Reporting.GrafanaCloudHostedMetrics", "src\App.Metrics.Reporting.GrafanaCloudHostedMetrics\App.Metrics.Reporting.GrafanaCloudHostedMetrics.csproj", "{1D1683FC-0471-4D5E-8EF7-9C9A7C3A9AA0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts", "test\App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts\App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts.csproj", "{D7D29D0B-4998-42FC-BC85-B9AF3DB02494}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Formatters.GrafanaCloudHostedMetrics", "src\App.Metrics.Formatters.GrafanaCloudHostedMetrics\App.Metrics.Formatters.GrafanaCloudHostedMetrics.csproj", "{B3AC2690-2514-4011-A971-3DE53EDBD358}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrafanaCloudHostedMetricsSandbox", "sandbox\GrafanaCloudHostedMetricsSandbox\GrafanaCloudHostedMetricsSandbox.csproj", "{B31F2A39-5333-404F-9658-08012F05B5F7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrafanaCloudHostedMetricsSandboxMvc", "sandbox\GrafanaCloudHostedMetricsSandboxMvc\GrafanaCloudHostedMetricsSandboxMvc.csproj", "{206734CC-A702-4791-9699-CD49A28862D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1D1683FC-0471-4D5E-8EF7-9C9A7C3A9AA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D1683FC-0471-4D5E-8EF7-9C9A7C3A9AA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D1683FC-0471-4D5E-8EF7-9C9A7C3A9AA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D1683FC-0471-4D5E-8EF7-9C9A7C3A9AA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7D29D0B-4998-42FC-BC85-B9AF3DB02494}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7D29D0B-4998-42FC-BC85-B9AF3DB02494}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7D29D0B-4998-42FC-BC85-B9AF3DB02494}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7D29D0B-4998-42FC-BC85-B9AF3DB02494}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3AC2690-2514-4011-A971-3DE53EDBD358}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3AC2690-2514-4011-A971-3DE53EDBD358}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3AC2690-2514-4011-A971-3DE53EDBD358}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3AC2690-2514-4011-A971-3DE53EDBD358}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B31F2A39-5333-404F-9658-08012F05B5F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B31F2A39-5333-404F-9658-08012F05B5F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B31F2A39-5333-404F-9658-08012F05B5F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B31F2A39-5333-404F-9658-08012F05B5F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{206734CC-A702-4791-9699-CD49A28862D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{206734CC-A702-4791-9699-CD49A28862D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{206734CC-A702-4791-9699-CD49A28862D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{206734CC-A702-4791-9699-CD49A28862D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E1A943F7-5493-4B64-A448-3E9EEA582E20} = {31A4DDB1-952E-4EED-96EF-29C669279A86}
+		{4199989A-27B6-4A6A-99C2-1AF6B01DA5EB} = {31A4DDB1-952E-4EED-96EF-29C669279A86}
+		{28CE67A4-2662-43AA-B42E-B3C8F33DF31B} = {31A4DDB1-952E-4EED-96EF-29C669279A86}
+		{1D1683FC-0471-4D5E-8EF7-9C9A7C3A9AA0} = {2D805782-756E-4C98-B22E-F502BEE95318}
+		{D7D29D0B-4998-42FC-BC85-B9AF3DB02494} = {DD2E4647-7125-4CE3-9BA5-B45A26113A31}
+		{B3AC2690-2514-4011-A971-3DE53EDBD358} = {2D805782-756E-4C98-B22E-F502BEE95318}
+		{B31F2A39-5333-404F-9658-08012F05B5F7} = {B0E330F2-942D-47DC-940D-692E01459A06}
+		{206734CC-A702-4791-9699-CD49A28862D5} = {B0E330F2-942D-47DC-940D-692E01459A06}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B2CAE199-E006-4654-A849-86DDD09BBAA8}
+	EndGlobalSection
+EndGlobal
