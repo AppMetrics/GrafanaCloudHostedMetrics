@@ -45,7 +45,7 @@ namespace App.Metrics.Formatters.GrafanaCloudHostedMetrics.Internal
                 return format(v);
             }
 
-            Logger.Error($"Attempted to write metric '{metric}' of type '{v.GetType()}' which is not supported.");
+            Logger.Warn($"Attempted to write metric '{metric}' of type '{v.GetType()}' which is not supported. If found too noisy in logs filter in your log config or filter this from being reported, see https://www.app-metrics.io/getting-started/filtering-metrics/");
 
             return 0;
         }

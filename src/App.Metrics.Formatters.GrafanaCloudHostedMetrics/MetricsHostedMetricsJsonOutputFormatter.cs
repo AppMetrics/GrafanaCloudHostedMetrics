@@ -6,10 +6,9 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using App.Metrics.Internal;
 using App.Metrics.Serialization;
 #if !NETSTANDARD1_6
-
+using App.Metrics.Internal;
 #endif
 
 namespace App.Metrics.Formatters.GrafanaCloudHostedMetrics
