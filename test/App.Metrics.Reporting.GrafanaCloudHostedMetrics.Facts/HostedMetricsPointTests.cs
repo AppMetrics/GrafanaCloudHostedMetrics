@@ -46,7 +46,7 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts
             var result = sb.ToString();
 
             // Assert
-            result.Should().Be("[{\"name\":\"measurement.key\",\"metric\":\"measurement.key\",\"value\":\"value\",\"interval\":1,\"unit\":\"\",\"time\":\"1483232461\",\"tags\":[]}]");
+            result.Should().Be("{\"name\":\"measurement.key\",\"metric\":\"measurement.key\",\"value\":0.0,\"interval\":1,\"mtype\":\"gauge\",\"unit\":\"\",\"time\":1483232461,\"tags\":[]}");
         }
 
         [Fact]
@@ -69,7 +69,7 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts
             var result = sb.ToString();
 
             // Assert
-            result.Should().Be("[{\"name\":\"measurement.field1key\",\"metric\":\"measurement.field1key\",\"value\":\"field1value\",\"interval\":1,\"unit\":\"\",\"time\":\"1483232461\",\"tags\":[]},{\"name\":\"measurement.field2key\",\"metric\":\"measurement.field2key\",\"value\":\"2\",\"interval\":1,\"unit\":\"\",\"time\":\"1483232461\",\"tags\":[]},{\"name\":\"measurement.field3key\",\"metric\":\"measurement.field3key\",\"value\":\"f\",\"interval\":1,\"unit\":\"\",\"time\":\"1483232461\",\"tags\":[]}]");
+            result.Should().Be("{\"name\":\"measurement.field1key\",\"metric\":\"measurement.field1key\",\"value\":0.0,\"interval\":1,\"mtype\":\"gauge\",\"unit\":\"\",\"time\":1483232461,\"tags\":[]}{\"name\":\"measurement.field2key\",\"metric\":\"measurement.field2key\",\"value\":2.0,\"interval\":1,\"mtype\":\"gauge\",\"unit\":\"\",\"time\":1483232461,\"tags\":[]}{\"name\":\"measurement.field3key\",\"metric\":\"measurement.field3key\",\"value\":0.0,\"interval\":1,\"mtype\":\"gauge\",\"unit\":\"\",\"time\":1483232461,\"tags\":[]}");
         }
 
         [Fact]
@@ -89,7 +89,7 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts
 
             // Assert
             result.Should()
-                  .Be("[{\"name\":\"measurement.tagkey.tagvalue.key\",\"metric\":\"measurement.tagkey.tagvalue.key\",\"value\":\"value\",\"interval\":1,\"unit\":\"\",\"time\":\"1483232461\",\"tags\":[]}]", "Hosted Metrics request at the moment allow tags array but its not yet used.");
+                  .Be("{\"name\":\"measurement.tagkey.tagvalue.key\",\"metric\":\"measurement.tagkey.tagvalue.key\",\"value\":0.0,\"interval\":1,\"mtype\":\"gauge\",\"unit\":\"\",\"time\":1483232461,\"tags\":[]}", "Hosted Metrics request at the moment allow tags array but its not yet used.");
         }
 
         [Fact]
@@ -108,7 +108,7 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts
             var result = sb.ToString();
 
             // Assert
-            result.Should().Be("[{\"name\":\"context.measurement.tagkey.tagvalue.key\",\"metric\":\"context.measurement.tagkey.tagvalue.key\",\"value\":\"value\",\"interval\":1,\"unit\":\"\",\"time\":\"1483232461\",\"tags\":[]}]", "Hosted Metrics request at the moment allow tags array but its not yet used.");
+            result.Should().Be("{\"name\":\"context.measurement.tagkey.tagvalue.key\",\"metric\":\"context.measurement.tagkey.tagvalue.key\",\"value\":0.0,\"interval\":1,\"mtype\":\"gauge\",\"unit\":\"\",\"time\":1483232461,\"tags\":[]}", "Hosted Metrics request at the moment allow tags array but its not yet used.");
         }
 
         [Fact]
