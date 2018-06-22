@@ -14,12 +14,9 @@ namespace App.Metrics.Formatters.GrafanaCloudHostedMetrics
     {
         public MetricsHostedMetricsOptions()
         {
-            MetricNameMapping = new GeneratedMetricNameMapping();
             MetricNameFormatter = HostedMetricsFormatterConstants.GraphiteDefaults.MetricPointTextWriter;
         }
 
         public Func<IHostedMetricsPointTextWriter> MetricNameFormatter { get; set; }
-
-        public GeneratedMetricNameMapping MetricNameMapping { get; set; }
     }
 }

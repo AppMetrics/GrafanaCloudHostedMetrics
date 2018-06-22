@@ -462,12 +462,13 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts
         {
             var settings = new MetricsHostedMetricsOptions();
             var serializer = new MetricSnapshotSerializer();
+            var fields = new MetricFields();
 
             using (var sw = new StringWriter())
             {
-                using (var packer = new MetricSnapshotHostedMetricsJsonWriter(sw, settings.MetricNameFormatter, settings.MetricNameMapping))
+                using (var packer = new MetricSnapshotHostedMetricsJsonWriter(sw, settings.MetricNameFormatter))
                 {
-                    serializer.Serialize(packer, dataValueSource);
+                    serializer.Serialize(packer, dataValueSource, fields);
                 }
 
                 sw.ToString().Should().Be(expected);

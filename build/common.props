@@ -6,7 +6,7 @@
     <Product>App Metrics</Product>
 		<Copyright>Allan Hardy 2016</Copyright>
 		<Authors>Allan Hardy</Authors>
-		<NoWarn>$(NoWarn);1701;1702;1705;CS1591;CS1570</NoWarn>
+		<NoWarn>$(NoWarn)</NoWarn>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageIconUrl>https://app-metrics.io/images/logo.png</PackageIconUrl>

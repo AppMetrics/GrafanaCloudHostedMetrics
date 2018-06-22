@@ -19,22 +19,16 @@ namespace App.Metrics.Formatters.GrafanaCloudHostedMetrics
 
         public MetricSnapshotHostedMetricsJsonWriter(
             TextWriter textWriter,
-            Func<IHostedMetricsPointTextWriter> metricPointTextWriter = null,
-            GeneratedMetricNameMapping dataKeys = null)
+            Func<IHostedMetricsPointTextWriter> metricPointTextWriter = null)
         {
             _textWriter = textWriter ?? throw new ArgumentNullException(nameof(textWriter));
             _points = new HostedMetricsPoints();
 
             _metricPointTextWriter = metricPointTextWriter != null ? metricPointTextWriter() : HostedMetricsFormatterConstants.GraphiteDefaults.MetricPointTextWriter();
-
-            MetricNameMapping = dataKeys ?? new GeneratedMetricNameMapping();
         }
 
         /// <inheritdoc />
-        public GeneratedMetricNameMapping MetricNameMapping { get; }
-
-        /// <inheritdoc />
-        public void Write(string context, string name, object value, MetricTags tags, DateTime timestamp)
+        public void Write(string context, string name, string field, object value, MetricTags tags, DateTime timestamp)
         {
             _points.Add(new HostedMetricsPoint(context, name, new Dictionary<string, object> { { "value", value } }, tags, _metricPointTextWriter, timestamp));
         }

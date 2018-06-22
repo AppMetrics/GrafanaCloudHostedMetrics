@@ -4,7 +4,8 @@
 
   <PropertyGroup>
     <Description>Provides GrafanaCloud Hosted Metrics reporting capability to App Metrics</Description>
-    <TargetFrameworks>netstandard1.6;net452</TargetFrameworks>
+    <TargetFrameworks>netstandard1.6</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net452</TargetFrameworks>
     <PackageTags>appmetrics;grafana cloud;hosted metrics;graphite;metrics 2.0</PackageTags>
   </PropertyGroup>
 
@@ -14,6 +15,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\App.Metrics.Formatters.GrafanaCloudHostedMetrics\App.Metrics.Formatters.GrafanaCloudHostedMetrics.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
+    <Reference Include="System" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
 
 </Project>
