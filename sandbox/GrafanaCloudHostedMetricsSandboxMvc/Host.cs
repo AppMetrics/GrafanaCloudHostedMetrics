@@ -29,10 +29,17 @@ namespace GrafanaCloudHostedMetricsSandboxMvc
             var grafanaCloudHostedMetricsOptions = new MetricsReportingHostedMetricsOptions();
             configuration.GetSection(nameof(MetricsReportingHostedMetricsOptions)).Bind(grafanaCloudHostedMetricsOptions);
 
+            // Samples with weight of less than 10% of average should be discarded when rescaling
+            const double minimumSampleWeight = 0.001;
+
             return WebHost.CreateDefaultBuilder(args)
                           .ConfigureMetricsWithDefaults(
                               builder =>
                               {
+                                  builder.SampleWith.ForwardDecaying(
+                                      AppMetricsReservoirSamplingConstants.DefaultSampleSize,
+                                      AppMetricsReservoirSamplingConstants.DefaultExponentialDecayFactor,
+                                      minimumSampleWeight: minimumSampleWeight);
                                   builder.Report.ToHostedMetrics(grafanaCloudHostedMetricsOptions);
                               })
                           .UseMetrics()
