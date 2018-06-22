@@ -6,6 +6,7 @@
     <OutputType>exe</OutputType>
     <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
     <LangVersion>latest</LangVersion>
+    <UserSecretsId>9d06471f-0189-4fd5-8826-aeeb7ac4dc1c</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
