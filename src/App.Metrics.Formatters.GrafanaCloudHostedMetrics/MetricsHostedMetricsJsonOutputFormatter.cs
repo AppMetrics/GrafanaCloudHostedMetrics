@@ -7,6 +7,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using App.Metrics.Serialization;
+
 #if !NETSTANDARD1_6
 using App.Metrics.Internal;
 #endif
@@ -17,14 +18,23 @@ namespace App.Metrics.Formatters.GrafanaCloudHostedMetrics
     {
         private readonly MetricsHostedMetricsOptions _options;
 
-        public MetricsHostedMetricsJsonOutputFormatter()
+        public MetricsHostedMetricsJsonOutputFormatter() { _options = new MetricsHostedMetricsOptions(); }
+
+        public MetricsHostedMetricsJsonOutputFormatter(MetricFields metricFields)
         {
             _options = new MetricsHostedMetricsOptions();
+            MetricFields = metricFields;
         }
 
         public MetricsHostedMetricsJsonOutputFormatter(MetricsHostedMetricsOptions options)
         {
             _options = options ?? throw new ArgumentNullException(nameof(options));
+        }
+
+        public MetricsHostedMetricsJsonOutputFormatter(MetricsHostedMetricsOptions options, MetricFields metricFields)
+        {
+            _options = options ?? throw new ArgumentNullException(nameof(options));
+            MetricFields = metricFields;
         }
 
         /// <inheritdoc />
