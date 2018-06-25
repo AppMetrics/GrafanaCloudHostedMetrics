@@ -112,6 +112,15 @@ namespace App.Metrics
 
             var hostedMetricsOptions = new MetricsHostedMetricsOptions();
 
+            var options = new MetricsReportingHostedMetricsOptions
+                          {
+                              HostedMetrics =
+                              {
+                                  BaseUri = uri,
+                                  ApiKey = apiKey
+                              }
+                          };
+
             hostedMetricsOptionsSetup?.Invoke(hostedMetricsOptions);
 
             IMetricsOutputFormatter formatter;
@@ -119,30 +128,22 @@ namespace App.Metrics
 
             if (fieldsSetup == null)
             {
-                formatter = new MetricsHostedMetricsJsonOutputFormatter(hostedMetricsOptions);
+                formatter = new MetricsHostedMetricsJsonOutputFormatter(options.FlushInterval, hostedMetricsOptions);
             }
             else
             {
                 fields = new MetricFields();
                 fieldsSetup.Invoke(fields);
-                formatter = new MetricsHostedMetricsJsonOutputFormatter(hostedMetricsOptions, fields);
+                formatter = new MetricsHostedMetricsJsonOutputFormatter(options.FlushInterval, hostedMetricsOptions, fields);
             }
 
-            var options = new MetricsReportingHostedMetricsOptions
-                          {
-                              HostedMetrics =
-                              {
-                                  BaseUri = uri,
-                                  ApiKey = apiKey
-                              },
-                              MetricsOutputFormatter = formatter
-                          };
+            options.MetricsOutputFormatter = formatter;
 
             var httpClient = CreateClient(options, options.HttpPolicy);
             var reporter = new HostedMetricsReporter(options, httpClient);
 
             var builder = metricReporterProviderBuilder.Using(reporter);
-            builder.OutputMetrics.AsGrafanaCloudHostedMetricsGraphiteSyntax(hostedMetricsOptions, fields);
+            builder.OutputMetrics.AsGrafanaCloudHostedMetricsGraphiteSyntax(hostedMetricsOptions, options.FlushInterval, fields);
 
             return builder;
         }
@@ -189,22 +190,6 @@ namespace App.Metrics
 
             var hostedMetricsOptions = new MetricsHostedMetricsOptions();
 
-            hostedMetricsOptionsSetup?.Invoke(hostedMetricsOptions);
-
-            IMetricsOutputFormatter formatter;
-            MetricFields fields = null;
-
-            if (fieldsSetup == null)
-            {
-                formatter = new MetricsHostedMetricsJsonOutputFormatter(hostedMetricsOptions);
-            }
-            else
-            {
-                fields = new MetricFields();
-                fieldsSetup.Invoke(fields);
-                formatter = new MetricsHostedMetricsJsonOutputFormatter(hostedMetricsOptions, fields);
-            }
-
             var options = new MetricsReportingHostedMetricsOptions
                           {
                               FlushInterval = flushInterval,
@@ -212,15 +197,32 @@ namespace App.Metrics
                               {
                                   BaseUri = uri,
                                   ApiKey = apiKey
-                              },
-                              MetricsOutputFormatter = formatter
+                              }
                           };
+
+            hostedMetricsOptionsSetup?.Invoke(hostedMetricsOptions);
+
+            IMetricsOutputFormatter formatter;
+            MetricFields fields = null;
+
+            if (fieldsSetup == null)
+            {
+                formatter = new MetricsHostedMetricsJsonOutputFormatter(options.FlushInterval, hostedMetricsOptions);
+            }
+            else
+            {
+                fields = new MetricFields();
+                fieldsSetup.Invoke(fields);
+                formatter = new MetricsHostedMetricsJsonOutputFormatter(options.FlushInterval, hostedMetricsOptions, fields);
+            }
+
+            options.MetricsOutputFormatter = formatter;
 
             var httpClient = CreateClient(options, options.HttpPolicy);
             var reporter = new HostedMetricsReporter(options, httpClient);
 
             var builder = metricReporterProviderBuilder.Using(reporter);
-            builder.OutputMetrics.AsGrafanaCloudHostedMetricsGraphiteSyntax(hostedMetricsOptions, fields);
+            builder.OutputMetrics.AsGrafanaCloudHostedMetricsGraphiteSyntax(hostedMetricsOptions, options.FlushInterval, fields);
 
             return builder;
         }

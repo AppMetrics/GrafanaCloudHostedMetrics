@@ -36,7 +36,7 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics
 
             _hostedMetricsClient = hostedMetricsClient ?? throw new ArgumentNullException(nameof(hostedMetricsClient));
 
-            Formatter = options.MetricsOutputFormatter ?? new MetricsHostedMetricsJsonOutputFormatter();
+            Formatter = options.MetricsOutputFormatter ?? new MetricsHostedMetricsJsonOutputFormatter(options.FlushInterval);
 
             FlushInterval = options.FlushInterval > TimeSpan.Zero
                 ? options.FlushInterval

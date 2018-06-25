@@ -14,14 +14,17 @@ namespace App.Metrics.Formatters.GrafanaCloudHostedMetrics
     public class MetricSnapshotHostedMetricsJsonWriter : IMetricSnapshotWriter
     {
         private readonly TextWriter _textWriter;
+        private readonly TimeSpan _flushInterval;
         private readonly IHostedMetricsPointTextWriter _metricPointTextWriter;
         private readonly HostedMetricsPoints _points;
 
         public MetricSnapshotHostedMetricsJsonWriter(
             TextWriter textWriter,
+            TimeSpan flushInterval,
             Func<IHostedMetricsPointTextWriter> metricPointTextWriter = null)
         {
             _textWriter = textWriter ?? throw new ArgumentNullException(nameof(textWriter));
+            _flushInterval = flushInterval;
             _points = new HostedMetricsPoints();
 
             _metricPointTextWriter = metricPointTextWriter != null ? metricPointTextWriter() : HostedMetricsFormatterConstants.GraphiteDefaults.MetricPointTextWriter();
@@ -30,7 +33,7 @@ namespace App.Metrics.Formatters.GrafanaCloudHostedMetrics
         /// <inheritdoc />
         public void Write(string context, string name, string field, object value, MetricTags tags, DateTime timestamp)
         {
-            _points.Add(new HostedMetricsPoint(context, name, new Dictionary<string, object> { { "value", value } }, tags, _metricPointTextWriter, timestamp));
+            _points.Add(new HostedMetricsPoint(context, name, new Dictionary<string, object> { { "value", value } }, tags, _metricPointTextWriter, _flushInterval, timestamp));
         }
 
         /// <inheritdoc />
@@ -38,7 +41,7 @@ namespace App.Metrics.Formatters.GrafanaCloudHostedMetrics
         {
             var fields = columns.Zip(values, (column, data) => new { column, data }).ToDictionary(pair => pair.column, pair => pair.data);
 
-            _points.Add(new HostedMetricsPoint(context, name, fields, tags, _metricPointTextWriter, timestamp));
+            _points.Add(new HostedMetricsPoint(context, name, fields, tags, _metricPointTextWriter, _flushInterval, timestamp));
         }
 
         /// <inheritdoc />

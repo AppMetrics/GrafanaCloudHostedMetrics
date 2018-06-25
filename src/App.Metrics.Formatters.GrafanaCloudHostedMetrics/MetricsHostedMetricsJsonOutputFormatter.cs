@@ -16,23 +16,34 @@ namespace App.Metrics.Formatters.GrafanaCloudHostedMetrics
 {
     public class MetricsHostedMetricsJsonOutputFormatter : IMetricsOutputFormatter
     {
+        private readonly TimeSpan _flushInterval;
         private readonly MetricsHostedMetricsOptions _options;
 
-        public MetricsHostedMetricsJsonOutputFormatter() { _options = new MetricsHostedMetricsOptions(); }
-
-        public MetricsHostedMetricsJsonOutputFormatter(MetricFields metricFields)
+        public MetricsHostedMetricsJsonOutputFormatter(TimeSpan flushInterval)
         {
+            _flushInterval = flushInterval;
+            _options = new MetricsHostedMetricsOptions();
+        }
+
+        public MetricsHostedMetricsJsonOutputFormatter(TimeSpan flushInterval, MetricFields metricFields)
+        {
+            _flushInterval = flushInterval;
             _options = new MetricsHostedMetricsOptions();
             MetricFields = metricFields;
         }
 
-        public MetricsHostedMetricsJsonOutputFormatter(MetricsHostedMetricsOptions options)
+        public MetricsHostedMetricsJsonOutputFormatter(TimeSpan flushInterval, MetricsHostedMetricsOptions options)
         {
+            _flushInterval = flushInterval;
             _options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
-        public MetricsHostedMetricsJsonOutputFormatter(MetricsHostedMetricsOptions options, MetricFields metricFields)
+        public MetricsHostedMetricsJsonOutputFormatter(
+            TimeSpan flushInterval,
+            MetricsHostedMetricsOptions options,
+            MetricFields metricFields)
         {
+            _flushInterval = flushInterval;
             _options = options ?? throw new ArgumentNullException(nameof(options));
             MetricFields = metricFields;
         }
@@ -60,6 +71,7 @@ namespace App.Metrics.Formatters.GrafanaCloudHostedMetrics
             {
                 using (var textWriter = new MetricSnapshotHostedMetricsJsonWriter(
                     streamWriter,
+                    _flushInterval,
                     _options.MetricNameFormatter))
                 {
                     serializer.Serialize(textWriter, metricsData, MetricFields);

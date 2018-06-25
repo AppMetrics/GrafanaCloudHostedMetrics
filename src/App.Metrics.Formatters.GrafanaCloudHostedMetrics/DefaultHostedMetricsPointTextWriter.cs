@@ -122,8 +122,7 @@ namespace App.Metrics.Formatters.GrafanaCloudHostedMetrics
                 textWriter.WriteValue(HostedMetricsSyntax.FormatValue(f.Value, metric));
 
                 textWriter.WritePropertyName("interval");
-                // TODO: set to the reporting interval
-                textWriter.WriteValue(1);
+                textWriter.WriteValue(point.FlushInterval.Seconds);
 
                 textWriter.WritePropertyName("mtype");
                 // not used yet. but should be one of gauge rate count counter timestamp
