@@ -2,9 +2,12 @@
 // Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
+using System;
 using System.IO;
+using System.Threading.Tasks;
 using App.Metrics;
 using App.Metrics.AspNetCore;
+using App.Metrics.Health;
 using App.Metrics.Reporting.GrafanaCloudHostedMetrics;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -41,6 +44,16 @@ namespace GrafanaCloudHostedMetricsSandboxMvc
                                       AppMetricsReservoirSamplingConstants.DefaultExponentialDecayFactor,
                                       minimumSampleWeight: minimumSampleWeight);
                                   builder.Report.ToHostedMetrics(grafanaCloudHostedMetricsOptions);
+                              })
+                          .ConfigureHealthWithDefaults(
+                              (context, services, builder) =>
+                              {
+                                  builder.OutputHealth.AsPlainText()
+                                         .OutputHealth.AsJson()
+                                         .HealthChecks.AddCheck("check 1", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()))
+                                         .HealthChecks.AddCheck("check 2", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()))
+                                         .HealthChecks.AddCheck("check 3", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()))
+                                         .RecordResultsAsMetrics(services, TimeSpan.FromSeconds(10));
                               })
                           .UseMetrics()
                           .UseSerilog()

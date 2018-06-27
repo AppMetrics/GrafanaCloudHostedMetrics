@@ -2,6 +2,8 @@
   <PropertyGroup>
     <AppMetricsCoreVersion>3.0.0-*</AppMetricsCoreVersion>
     <AppMetricsAspNetCoreVersion>3.0.0-*</AppMetricsAspNetCoreVersion>
+    <AppMetricsAspNetCoreHealthVersion>2.1.0-*</AppMetricsAspNetCoreHealthVersion>
+    <AppMetricsMicrosoftExtensionsVersion>3.0.0-*</AppMetricsMicrosoftExtensionsVersion>
     <AspNetCoreVersion>2.1.0</AspNetCoreVersion>
     <AspNetCoreMvcVersion>2.1.0</AspNetCoreMvcVersion>
     <MicrosoftExtensionsVersion>2.1.0</MicrosoftExtensionsVersion>
