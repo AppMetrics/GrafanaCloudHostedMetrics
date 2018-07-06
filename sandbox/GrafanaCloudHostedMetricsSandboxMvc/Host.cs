@@ -7,6 +7,8 @@ using System.IO;
 using System.Threading.Tasks;
 using App.Metrics;
 using App.Metrics.AspNetCore;
+using App.Metrics.AspNetCore.Health;
+using App.Metrics.Extensions.Configuration;
 using App.Metrics.Health;
 using App.Metrics.Reporting.GrafanaCloudHostedMetrics;
 using Microsoft.AspNetCore;
@@ -35,26 +37,28 @@ namespace GrafanaCloudHostedMetricsSandboxMvc
             // Samples with weight of less than 10% of average should be discarded when rescaling
             const double minimumSampleWeight = 0.001;
 
+            var metrics = AppMetrics.CreateDefaultBuilder()
+                                    .Configuration.ReadFrom(configuration)
+                                    .SampleWith.ForwardDecaying(
+                                        AppMetricsReservoirSamplingConstants.DefaultSampleSize,
+                                        AppMetricsReservoirSamplingConstants.DefaultExponentialDecayFactor,
+                                        minimumSampleWeight: minimumSampleWeight)
+                                    .Report.ToHostedMetrics(grafanaCloudHostedMetricsOptions)
+                                    .Build();
+
             return WebHost.CreateDefaultBuilder(args)
-                          .ConfigureMetricsWithDefaults(
-                              builder =>
-                              {
-                                  builder.SampleWith.ForwardDecaying(
-                                      AppMetricsReservoirSamplingConstants.DefaultSampleSize,
-                                      AppMetricsReservoirSamplingConstants.DefaultExponentialDecayFactor,
-                                      minimumSampleWeight: minimumSampleWeight);
-                                  builder.Report.ToHostedMetrics(grafanaCloudHostedMetricsOptions);
-                              })
+                          .ConfigureMetrics(metrics)
                           .ConfigureHealthWithDefaults(
-                              (context, services, builder) =>
+                              (context, builder) =>
                               {
                                   builder.OutputHealth.AsPlainText()
                                          .OutputHealth.AsJson()
                                          .HealthChecks.AddCheck("check 1", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()))
-                                         .HealthChecks.AddCheck("check 2", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()))
-                                         .HealthChecks.AddCheck("check 3", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()))
-                                         .RecordResultsAsMetrics(services, TimeSpan.FromSeconds(10));
+                                         .HealthChecks.AddCheck("check 2", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Degraded()))
+                                         .HealthChecks.AddCheck("check 3", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Unhealthy()))
+                                         .Report.ToMetrics(metrics);
                               })
+                          .UseHealth()
                           .UseMetrics()
                           .UseSerilog()
                           .UseStartup<Startup>()

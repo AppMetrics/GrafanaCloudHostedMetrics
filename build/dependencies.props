@@ -1,14 +1,15 @@
 <Project>
   <PropertyGroup>
     <AppMetricsCoreVersion>3.0.0-*</AppMetricsCoreVersion>
+    <AppMetricsHealthCoreVersion>2.1.0-*</AppMetricsHealthCoreVersion>
     <AppMetricsAspNetCoreVersion>3.0.0-*</AppMetricsAspNetCoreVersion>
     <AppMetricsAspNetCoreHealthVersion>2.1.0-*</AppMetricsAspNetCoreHealthVersion>
     <AppMetricsMicrosoftExtensionsVersion>3.0.0-*</AppMetricsMicrosoftExtensionsVersion>
-    <AspNetCoreVersion>2.1.0</AspNetCoreVersion>
-    <AspNetCoreMvcVersion>2.1.0</AspNetCoreMvcVersion>
-    <MicrosoftExtensionsVersion>2.1.0</MicrosoftExtensionsVersion>
+    <AspNetCoreVersion>2.1.1</AspNetCoreVersion>
+    <AspNetCoreMvcVersion>2.1.1</AspNetCoreMvcVersion>
+    <MicrosoftExtensionsVersion>2.1.1</MicrosoftExtensionsVersion>
     <CoreFxVersion>4.5.0</CoreFxVersion>
-    <DependencyModelVersion>2.1.0</DependencyModelVersion>
+    <DependencyModelVersion>2.1.1</DependencyModelVersion>
     <MoqVersion>4.8.2</MoqVersion>
     <NewtonsoftVersion>11.0.2</NewtonsoftVersion>
     <TestSdkVersion>15.8.0-preview-20180510-03</TestSdkVersion>
