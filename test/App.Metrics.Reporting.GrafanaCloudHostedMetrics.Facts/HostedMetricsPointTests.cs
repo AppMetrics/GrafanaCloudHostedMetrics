@@ -1,5 +1,5 @@
-﻿// <copyright file="HostedMetricsPointTests.cs" company="Allan Hardy">
-// Copyright (c) Allan Hardy. All rights reserved.
+﻿// <copyright file="HostedMetricsPointTests.cs" company="App Metrics Contributors">
+// Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using System;
@@ -16,6 +16,8 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts
 {
     public class HostedMetricsPointTests
     {
+        private static readonly TimeSpan FlushInterval = TimeSpan.FromSeconds(10);
+
         [Fact]
         public void At_least_one_field_is_required()
         {
@@ -24,7 +26,7 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts
             Action action = () =>
             {
                 // Act
-                var point = new HostedMetricsPoint(null, "measurement", fields, MetricTags.Empty, new DefaultHostedMetricsPointTextWriter());
+                var point = new HostedMetricsPoint(null, "measurement", fields, MetricTags.Empty, new DefaultHostedMetricsPointTextWriter(), FlushInterval);
             };
 
             // Assert
@@ -39,14 +41,14 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts
             var textWriter = new JsonTextWriter(new StringWriter(sb));
             var fields = new Dictionary<string, object> { { "key", "value" } };
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, DateTimeKind.Utc);
-            var point = new HostedMetricsPoint(null, "measurement", fields, MetricTags.Empty, new DefaultHostedMetricsPointTextWriter(), timestamp);
+            var point = new HostedMetricsPoint(null, "measurement", fields, MetricTags.Empty, new DefaultHostedMetricsPointTextWriter(), FlushInterval, timestamp);
 
             // Act
             point.Write(textWriter);
             var result = sb.ToString();
 
             // Assert
-            result.Should().Be("[{\"name\":\"measurement.key\",\"metric\":\"measurement.key\",\"value\":\"value\",\"interval\":1,\"unit\":\"\",\"time\":\"1483232461\",\"tags\":[]}]");
+            result.Should().Be("{\"name\":\"measurement.key\",\"metric\":\"measurement.key\",\"value\":0.0,\"interval\":10,\"mtype\":\"gauge\",\"unit\":\"\",\"time\":1483232461,\"tags\":[]}");
         }
 
         [Fact]
@@ -62,14 +64,14 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts
                              { "field3key", false }
                          };
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, DateTimeKind.Utc);
-            var point = new HostedMetricsPoint(null, "measurement", fields, MetricTags.Empty, new DefaultHostedMetricsPointTextWriter(), timestamp);
+            var point = new HostedMetricsPoint(null, "measurement", fields, MetricTags.Empty, new DefaultHostedMetricsPointTextWriter(), FlushInterval, timestamp);
 
             // Act
             point.Write(textWriter);
             var result = sb.ToString();
 
             // Assert
-            result.Should().Be("[{\"name\":\"measurement.field1key\",\"metric\":\"measurement.field1key\",\"value\":\"field1value\",\"interval\":1,\"unit\":\"\",\"time\":\"1483232461\",\"tags\":[]},{\"name\":\"measurement.field2key\",\"metric\":\"measurement.field2key\",\"value\":\"2\",\"interval\":1,\"unit\":\"\",\"time\":\"1483232461\",\"tags\":[]},{\"name\":\"measurement.field3key\",\"metric\":\"measurement.field3key\",\"value\":\"f\",\"interval\":1,\"unit\":\"\",\"time\":\"1483232461\",\"tags\":[]}]");
+            result.Should().Be("{\"name\":\"measurement.field1key\",\"metric\":\"measurement.field1key\",\"value\":0.0,\"interval\":10,\"mtype\":\"gauge\",\"unit\":\"\",\"time\":1483232461,\"tags\":[]}{\"name\":\"measurement.field2key\",\"metric\":\"measurement.field2key\",\"value\":2.0,\"interval\":10,\"mtype\":\"gauge\",\"unit\":\"\",\"time\":1483232461,\"tags\":[]}{\"name\":\"measurement.field3key\",\"metric\":\"measurement.field3key\",\"value\":0.0,\"interval\":10,\"mtype\":\"gauge\",\"unit\":\"\",\"time\":1483232461,\"tags\":[]}");
         }
 
         [Fact]
@@ -81,7 +83,7 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts
             var fields = new Dictionary<string, object> { { "key", "value" } };
             var tags = new MetricTags("tagkey", "tagvalue");
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, DateTimeKind.Utc);
-            var point = new HostedMetricsPoint(null, "measurement", fields, tags, new DefaultHostedMetricsPointTextWriter(), timestamp);
+            var point = new HostedMetricsPoint(null, "measurement", fields, tags, new DefaultHostedMetricsPointTextWriter(), FlushInterval, timestamp);
 
             // Act
             point.Write(textWriter);
@@ -89,7 +91,7 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts
 
             // Assert
             result.Should()
-                  .Be("[{\"name\":\"measurement.tagkey.tagvalue.key\",\"metric\":\"measurement.tagkey.tagvalue.key\",\"value\":\"value\",\"interval\":1,\"unit\":\"\",\"time\":\"1483232461\",\"tags\":[]}]", "Hosted Metrics request at the moment allow tags array but its not yet used.");
+                  .Be("{\"name\":\"measurement.tagkey.tagvalue.key\",\"metric\":\"measurement.tagkey.tagvalue.key\",\"value\":0.0,\"interval\":10,\"mtype\":\"gauge\",\"unit\":\"\",\"time\":1483232461,\"tags\":[]}", "Hosted Metrics request at the moment allow tags array but its not yet used.");
         }
 
         [Fact]
@@ -101,14 +103,14 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts
             var fields = new Dictionary<string, object> { { "key", "value" } };
             var tags = new MetricTags("tagkey", "tagvalue");
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, DateTimeKind.Utc);
-            var point = new HostedMetricsPoint("context", "measurement", fields, tags, new DefaultHostedMetricsPointTextWriter(), timestamp);
+            var point = new HostedMetricsPoint("context", "measurement", fields, tags, new DefaultHostedMetricsPointTextWriter(), FlushInterval, timestamp);
 
             // Act
             point.Write(textWriter);
             var result = sb.ToString();
 
             // Assert
-            result.Should().Be("[{\"name\":\"context.measurement.tagkey.tagvalue.key\",\"metric\":\"context.measurement.tagkey.tagvalue.key\",\"value\":\"value\",\"interval\":1,\"unit\":\"\",\"time\":\"1483232461\",\"tags\":[]}]", "Hosted Metrics request at the moment allow tags array but its not yet used.");
+            result.Should().Be("{\"name\":\"context.measurement.tagkey.tagvalue.key\",\"metric\":\"context.measurement.tagkey.tagvalue.key\",\"value\":0.0,\"interval\":10,\"mtype\":\"gauge\",\"unit\":\"\",\"time\":1483232461,\"tags\":[]}", "Hosted Metrics request at the moment allow tags array but its not yet used.");
         }
 
         [Fact]
@@ -119,7 +121,7 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts
             Action action = () =>
             {
                 // Act
-                var point = new HostedMetricsPoint(null, "measurement", fields, MetricTags.Empty, new DefaultHostedMetricsPointTextWriter());
+                var point = new HostedMetricsPoint(null, "measurement", fields, MetricTags.Empty, new DefaultHostedMetricsPointTextWriter(), FlushInterval);
             };
 
             // Assert
@@ -134,7 +136,7 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts
             Action action = () =>
             {
                 // Act
-                var point = new HostedMetricsPoint(null, string.Empty, fields, MetricTags.Empty, new DefaultHostedMetricsPointTextWriter());
+                var point = new HostedMetricsPoint(null, string.Empty, fields, MetricTags.Empty, new DefaultHostedMetricsPointTextWriter(), FlushInterval);
             };
 
             // Assert
@@ -154,7 +156,7 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics.Facts
             Action action = () =>
             {
                 // Act
-                var point = new HostedMetricsPoint(null, "measurement", fields, MetricTags.Empty, new DefaultHostedMetricsPointTextWriter(), timestamp);
+                var point = new HostedMetricsPoint(null, "measurement", fields, MetricTags.Empty, new DefaultHostedMetricsPointTextWriter(), FlushInterval, timestamp);
             };
 
             // Assert

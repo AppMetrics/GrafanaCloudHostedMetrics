@@ -1,5 +1,5 @@
-﻿// <copyright file="HostedMetricsPoint.cs" company="Allan Hardy">
-// Copyright (c) Allan Hardy. All rights reserved.
+﻿// <copyright file="HostedMetricsPoint.cs" company="App Metrics Contributors">
+// Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using System;
@@ -19,9 +19,12 @@ namespace App.Metrics.Formatters.GrafanaCloudHostedMetrics.Internal
             IReadOnlyDictionary<string, object> fields,
             MetricTags tags,
             IHostedMetricsPointTextWriter pointTextWriter,
+            TimeSpan flushInterval,
             DateTime? utcTimestamp = null)
         {
             _pointTextWriter = pointTextWriter ?? throw new ArgumentNullException(nameof(pointTextWriter));
+
+            FlushInterval = flushInterval;
 
             if (string.IsNullOrEmpty(measurement))
             {
@@ -57,6 +60,8 @@ namespace App.Metrics.Formatters.GrafanaCloudHostedMetrics.Internal
         public string Measurement { get; }
 
         public MetricTags Tags { get; }
+
+        public TimeSpan FlushInterval { get; }
 
         public DateTime? UtcTimestamp { get; }
 

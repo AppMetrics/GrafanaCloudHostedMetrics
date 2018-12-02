@@ -1,5 +1,5 @@
 # App Metrics GrafanaCloud Hosted Metrics <img src="https://avatars0.githubusercontent.com/u/29864085?v=4&s=200" alt="App Metrics" width="50px"/> 
-[![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg?style=flat-square)](http://app-metrics.io/reporting/grafanacloud.html) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
+[![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg?style=flat-square)](https://www.app-metrics.io/reporting/reporters/grafanacloud-hostedmetrics/) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 
 ## What is it?
 
@@ -9,8 +9,8 @@ This repo contains [GrafanaCloud Hosted Metrics](https://grafana.com/cloud/metri
 
 |Branch|AppVeyor|Travis|Coverage|
 |------|:--------:|:--------:|:--------:|
-|dev|[![AppVeyor](https://ci.appveyor.com/api/projects/status/gb797q4ob6vwwgia/branch/dev?svg=true?style=flat-square&label=appveyor%20build)](https://ci.appveyor.com/project/alhardy/GrafanaCloudHostedMetrics/branch/dev)|[![Travis](https://img.shields.io/travis/alhardy/grafanacloudhostedmetrics/dev.svg?style=flat-square&label=travis%20build)](https://travis-ci.org/alhardy/grafanacloudhostedmetrics)|[![Coveralls](https://img.shields.io/coveralls/AppMetrics/grafanacloudhostedmetrics/dev.svg?style=flat-square)](https://coveralls.io/github/AppMetrics/grafanacloudhostedmetrics?branch=dev)
-|master|[![AppVeyor](https://ci.appveyor.com/api/projects/status/gb797q4ob6vwwgia/branch/master?svg=true?style=flat-square&label=appveyor%20build)](https://ci.appveyor.com/project/alhardy/GrafanaCloudHostedMetrics/branch/master)| [![Travis](https://img.shields.io/travis/alhardy/grafanacloudhostedmetrics/master.svg?style=flat-square&label=travis%20build)](https://travis-ci.org/alhardy/grafanacloudhostedmetrics)| [![Coveralls](https://img.shields.io/coveralls/AppMetrics/grafanacloudhostedmetrics/master.svg?style=flat-square)](https://coveralls.io/github/AppMetrics/grafanacloudhostedmetrics?branch=master)|
+|dev|[![AppVeyor](https://ci.appveyor.com/api/projects/status/gb797q4ob6vwwgia/branch/dev?svg=true&style=flat-square&label=appveyor%20build)](https://ci.appveyor.com/project/alhardy/GrafanaCloudHostedMetrics/branch/dev)|[![Travis](https://img.shields.io/travis/alhardy/grafanacloudhostedmetrics/dev.svg?style=flat-square&label=travis%20build)](https://travis-ci.org/alhardy/grafanacloudhostedmetrics)|[![Coveralls](https://img.shields.io/coveralls/AppMetrics/grafanacloudhostedmetrics/dev.svg?style=flat-square)](https://coveralls.io/github/AppMetrics/grafanacloudhostedmetrics?branch=dev)
+|master|[![AppVeyor](https://ci.appveyor.com/api/projects/status/gb797q4ob6vwwgia/branch/master?svg=true&style=flat-square&label=appveyor%20build)](https://ci.appveyor.com/project/alhardy/GrafanaCloudHostedMetrics/branch/master)| [![Travis](https://img.shields.io/travis/alhardy/grafanacloudhostedmetrics/master.svg?style=flat-square&label=travis%20build)](https://travis-ci.org/alhardy/grafanacloudhostedmetrics)| [![Coveralls](https://img.shields.io/coveralls/AppMetrics/grafanacloudhostedmetrics/master.svg?style=flat-square)](https://coveralls.io/github/AppMetrics/grafanacloudhostedmetrics?branch=master)|
 
 |Package|Dev Release|PreRelease|Latest Release|
 |------|:--------:|:--------:|:--------:|

@@ -3,19 +3,22 @@
   <Import Project="..\..\build\common.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netcoreapp2.0</TargetFrameworks>
-    <UserSecretsId>f109b4b0-c721-4810-aea4-75e7310cc974</UserSecretsId>
+    <OutputType>exe</OutputType>
+    <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <UserSecretsId>9d06471f-0189-4fd5-8826-aeeb7ac4dc1c</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>        
+  <ItemGroup>
+    <PackageReference Include="App.Metrics.AspNetCore.Health" Version="$(AppMetricsAspNetCoreHealthVersion)" />
     <PackageReference Include="App.Metrics.AspNetCore.Mvc" Version="$(AppMetricsAspNetCoreVersion)" />
+    <PackageReference Include="App.Metrics.Health.Reporting.Metrics" Version="$(AppMetricsHealthCoreVersion)" />
     <PackageReference Include="Microsoft.AspNetCore" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="$(AspNetCoreMvcVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="$(MicrosoftExtensionsVersion)" />
-    <PackageReference Include="Serilog.Sinks.Literate" Version="3.0.0" />
-    <PackageReference Include="Serilog.Sinks.Seq" Version="4.0.0" />
-    <PackageReference Include="Serilog.AspNetCore " Version="2.1.0" />
+    <PackageReference Include="Serilog.Sinks.Literate" Version="3.0.1-dev-00044" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="4.0.1-dev-00155" />
+    <PackageReference Include="Serilog.AspNetCore " Version="2.1.2-dev-00024" />
   </ItemGroup>
   
   <ItemGroup>

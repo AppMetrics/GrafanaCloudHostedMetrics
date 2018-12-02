@@ -1,11 +1,13 @@
-﻿// <copyright file="HostedMetricsReporterBuilder.cs" company="Allan Hardy">
-// Copyright (c) Allan Hardy. All rights reserved.
+﻿// <copyright file="HostedMetricsReporterBuilder.cs" company="App Metrics Contributors">
+// Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using App.Metrics.Builder;
+using App.Metrics.Formatters;
+using App.Metrics.Formatters.GrafanaCloudHostedMetrics;
 using App.Metrics.Reporting.GrafanaCloudHostedMetrics;
 using App.Metrics.Reporting.GrafanaCloudHostedMetrics.Client;
 
@@ -81,13 +83,17 @@ namespace App.Metrics
         /// </param>
         /// <param name="url">The base url where metrics are written.</param>
         /// <param name="apiKey">The api key used for authentication</param>
+        /// <param name="fieldsSetup">The metric fields to report as well as their names.</param>
+        /// <param name="hostedMetricsOptionsSetup">The setup action to configure the <see cref="MetricsHostedMetricsOptions"/> to use.</param>
         /// <returns>
         ///     An <see cref="IMetricsBuilder" /> that can be used to further configure App Metrics.
         /// </returns>
         public static IMetricsBuilder ToHostedMetrics(
             this IMetricsReportingBuilder metricReporterProviderBuilder,
             string url,
-            string apiKey)
+            string apiKey,
+            Action<MetricFields> fieldsSetup = null,
+            Action<MetricsHostedMetricsOptions> hostedMetricsOptionsSetup = null)
         {
             if (metricReporterProviderBuilder == null)
             {
@@ -104,6 +110,8 @@ namespace App.Metrics
                 throw new InvalidOperationException($"{nameof(url)} must be a valid absolute URI");
             }
 
+            var hostedMetricsOptions = new MetricsHostedMetricsOptions();
+
             var options = new MetricsReportingHostedMetricsOptions
                           {
                               HostedMetrics =
@@ -113,11 +121,29 @@ namespace App.Metrics
                               }
                           };
 
+            hostedMetricsOptionsSetup?.Invoke(hostedMetricsOptions);
+
+            IMetricsOutputFormatter formatter;
+            MetricFields fields = null;
+
+            if (fieldsSetup == null)
+            {
+                formatter = new MetricsHostedMetricsJsonOutputFormatter(options.FlushInterval, hostedMetricsOptions);
+            }
+            else
+            {
+                fields = new MetricFields();
+                fieldsSetup.Invoke(fields);
+                formatter = new MetricsHostedMetricsJsonOutputFormatter(options.FlushInterval, hostedMetricsOptions, fields);
+            }
+
+            options.MetricsOutputFormatter = formatter;
+
             var httpClient = CreateClient(options, options.HttpPolicy);
             var reporter = new HostedMetricsReporter(options, httpClient);
 
             var builder = metricReporterProviderBuilder.Using(reporter);
-            builder.OutputMetrics.AsGrafanaCloudHostedMetricsGraphiteSyntax();
+            builder.OutputMetrics.AsGrafanaCloudHostedMetricsGraphiteSyntax(hostedMetricsOptions, options.FlushInterval, fields);
 
             return builder;
         }
@@ -134,6 +160,8 @@ namespace App.Metrics
         ///     The <see cref="T:System.TimeSpan" /> interval used if intended to schedule metrics
         ///     reporting.
         /// </param>
+        /// <param name="fieldsSetup">The metric fields to report as well as their names.</param>
+        /// <param name="hostedMetricsOptionsSetup">The setup action to configure the <see cref="MetricsHostedMetricsOptions"/> to use.</param>
         /// <returns>
         ///     An <see cref="IMetricsBuilder" /> that can be used to further configure App Metrics.
         /// </returns>
@@ -141,7 +169,9 @@ namespace App.Metrics
             this IMetricsReportingBuilder metricReporterProviderBuilder,
             string url,
             string apiKey,
-            TimeSpan flushInterval)
+            TimeSpan flushInterval,
+            Action<MetricFields> fieldsSetup = null,
+            Action<MetricsHostedMetricsOptions> hostedMetricsOptionsSetup = null)
         {
             if (metricReporterProviderBuilder == null)
             {
@@ -158,6 +188,8 @@ namespace App.Metrics
                 throw new InvalidOperationException($"{nameof(url)} must be a valid absolute URI");
             }
 
+            var hostedMetricsOptions = new MetricsHostedMetricsOptions();
+
             var options = new MetricsReportingHostedMetricsOptions
                           {
                               FlushInterval = flushInterval,
@@ -168,11 +200,29 @@ namespace App.Metrics
                               }
                           };
 
+            hostedMetricsOptionsSetup?.Invoke(hostedMetricsOptions);
+
+            IMetricsOutputFormatter formatter;
+            MetricFields fields = null;
+
+            if (fieldsSetup == null)
+            {
+                formatter = new MetricsHostedMetricsJsonOutputFormatter(options.FlushInterval, hostedMetricsOptions);
+            }
+            else
+            {
+                fields = new MetricFields();
+                fieldsSetup.Invoke(fields);
+                formatter = new MetricsHostedMetricsJsonOutputFormatter(options.FlushInterval, hostedMetricsOptions, fields);
+            }
+
+            options.MetricsOutputFormatter = formatter;
+
             var httpClient = CreateClient(options, options.HttpPolicy);
             var reporter = new HostedMetricsReporter(options, httpClient);
 
             var builder = metricReporterProviderBuilder.Using(reporter);
-            builder.OutputMetrics.AsGrafanaCloudHostedMetricsGraphiteSyntax();
+            builder.OutputMetrics.AsGrafanaCloudHostedMetricsGraphiteSyntax(hostedMetricsOptions, options.FlushInterval, fields);
 
             return builder;
         }

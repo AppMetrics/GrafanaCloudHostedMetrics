@@ -1,5 +1,5 @@
-﻿// <copyright file="HostedMetricsReporter.cs" company="Allan Hardy">
-// Copyright (c) Allan Hardy. All rights reserved.
+﻿// <copyright file="HostedMetricsReporter.cs" company="App Metrics Contributors">
+// Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using System;
@@ -36,7 +36,7 @@ namespace App.Metrics.Reporting.GrafanaCloudHostedMetrics
 
             _hostedMetricsClient = hostedMetricsClient ?? throw new ArgumentNullException(nameof(hostedMetricsClient));
 
-            Formatter = options.MetricsOutputFormatter ?? new MetricsHostedMetricsJsonOutputFormatter();
+            Formatter = options.MetricsOutputFormatter ?? new MetricsHostedMetricsJsonOutputFormatter(options.FlushInterval);
 
             FlushInterval = options.FlushInterval > TimeSpan.Zero
                 ? options.FlushInterval
